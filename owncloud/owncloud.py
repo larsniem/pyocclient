@@ -89,7 +89,7 @@ class ShareInfo(object):
 
     def get_share_with(self):
         """Returns the share recipient.
-        If share type is OCS_SHARE_TYPE_USER, then the recipient is the name of
+        If share type is OCS_SHARE_TYPE_USER, then the recipient is the of
         the user.
         For OCS_SHARE_TYPE_GROUP it is the name of the group.
         Otherwise this value is None.
@@ -907,7 +907,6 @@ class Client(object):
                                     'path': path,
                                     'url': data_el.find('url').text,
                                     'token': data_el.find('token').text,
-                                    'name': data_el.find('name').text
                                 }
             )
         raise HTTPResponseError(res)
