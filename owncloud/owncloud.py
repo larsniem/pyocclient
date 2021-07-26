@@ -868,6 +868,7 @@ class Client(object):
         :param password (optional): sets a password
         http://doc.owncloud.org/server/6.0/admin_manual/sharing_api/index.html
         :param name (optional): display name for the link
+        :param expire_date (optional): accepts a date strictly formated YYYY-MM-DD
         :returns: instance of :class:`ShareInfo` with the share info
             or False if the operation failed
         :raises: HTTPResponseError in case an HTTP error status was returned
@@ -876,6 +877,7 @@ class Client(object):
         public_upload = kwargs.get('public_upload', 'false')
         password = kwargs.get('password', None)
         name = kwargs.get('name', None)
+        expire_date = kwargs.get("expire_date", None)
 
         path = self._normalize_path(path)
         post_data = {
@@ -890,6 +892,8 @@ class Client(object):
             post_data['name'] = self._encode_string(name)
         if perms:
             post_data['permissions'] = perms
+        if expire_date:
+            post_data["expireDate"] = expire_date
 
         res = self._make_ocs_request(
             'POST',
@@ -907,6 +911,7 @@ class Client(object):
                                     'path': path,
                                     'url': data_el.find('url').text,
                                     'token': data_el.find('token').text,
+                                    'expiration': data_el.find('expiration').text,
                                 }
             )
         raise HTTPResponseError(res)
